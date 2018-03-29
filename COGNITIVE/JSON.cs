@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.IO;
 
 namespace COGNITIVE
 {
@@ -23,6 +24,11 @@ namespace COGNITIVE
                                     new JProperty("text", p.text))))));
 
             return documents;
+        }
+
+        public static string ParseDocument(string json)
+        {
+            return JObject.Parse(json).ToString();
         }
     }
 }

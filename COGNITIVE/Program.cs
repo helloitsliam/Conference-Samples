@@ -18,6 +18,8 @@ namespace COGNITIVE
             string keyphrases = "";
             string language = "";
             string translation = "";
+            string translatefromlanguage = "en";
+            string translationlanguage = "en";
 
             // Download the documents from SharePoint
             //DownloadDocuments();
@@ -65,20 +67,15 @@ namespace COGNITIVE
             Console.WriteLine("Language Value:");
             Console.WriteLine(language);
 
-            // Translate Document
-            Task.Run(async () =>
-            {
-                translation = await Helper.DoTranslate(value);
-            }).Wait();
+            translation = Helper.DoTranslate(value, translatefromlanguage, translationlanguage);
 
             Console.WriteLine("Translation Value:");
             Console.WriteLine(translation);
 
-            // Puase
+            // Pause
             Console.ReadLine();
-            
-            // Create 
 
+            // Create 
 
             //UploadDocuments();
         }

@@ -10,6 +10,7 @@ using System.Web;
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using System.Xml.Linq;
+using System.Net;
 
 namespace COGNITIVE
 {
@@ -19,14 +20,14 @@ namespace COGNITIVE
         public const string keyphraseUrl = "https://westus.api.cognitive.microsoft.com/text/analytics/v2.0/keyPhrases";
         public const string languageUrl = "https://westus.api.cognitive.microsoft.com/text/analytics/v2.0/languages";
         //public const string translateUrl = "https://api.cognitive.microsoft.com/sts/v1.0";
-        public const string translateUrl = "http://api.microsofttranslator.com/v2/Http.svc/Translate";
+        public const string translateUrl = "https://api.microsofttranslator.com/v2/Http.svc/translate";
 
         public const string subscriptionKey = "7b6b8af6e62e4939abbeb8be78e1fd3a";
         public const string translationSubscriptionKey = "acd8ad738993428e84c571d66d270b4f";
 
         public const string siteUrl = "http://portal.labs.int";
         public const string documentLibrary = "Documents";
-        public const string filePath = "D:\\CODE\\COGNITIVE\\FILES";
+        public const string filePath = "D:\\COGNITIVE\\FILES";
 
         public static string sentimentOutput = string.Empty;
         public static string keyphraseOutput = string.Empty;
@@ -116,7 +117,7 @@ namespace COGNITIVE
 
         public static async Task<string> DoTranslate(string body)
         {
-            string lang = "en";
+            string lang = "de";
 
             var client = new HttpClient();
             var queryString = HttpUtility.ParseQueryString(string.Empty);
@@ -143,6 +144,23 @@ namespace COGNITIVE
             return translateOutput;
         }
 
+        public static string DoTranslate(string body, string language, string translationlanguage)
+        {
+            string uri = string.Format(translateUrl + "?text=" + HttpUtility.UrlEncode(body.ToString()) + "&from={0}&to={1}", language, translationlanguage);
+            var translationWebRequest = HttpWebRequest.Create(uri);
+            translationWebRequest.Headers.Add("Ocp-Apim-Subscription-Key", Helper.translationSubscriptionKey);
+            WebResponse response = null;
+            response =  translationWebRequest.GetResponse();
+
+            // Parse the response XML
+            Stream stream = response.GetResponseStream();
+            StreamReader translatedStream = new StreamReader(stream, Encoding.GetEncoding("utf-8"));
+            System.Xml.XmlDocument xmlResponse = new System.Xml.XmlDocument();
+            xmlResponse.LoadXml(translatedStream.ReadToEnd());
+
+            translateOutput = xmlResponse.InnerText; ;
+            return translateOutput;
+        }
 
         public static byte[] GetBinary(Stream input)
         {
