@@ -22,10 +22,10 @@ namespace COGNITIVE
         //public const string translateUrl = "https://api.cognitive.microsoft.com/sts/v1.0";
         public const string translateUrl = "https://api.microsofttranslator.com/v2/Http.svc/translate";
 
-        public const string subscriptionKey = "7b6b8af6e62e4939abbeb8be78e1fd3a";
-        public const string translationSubscriptionKey = "acd8ad738993428e84c571d66d270b4f";
+        public const string subscriptionKey = "{Your Azure Key}";
+        public const string translationSubscriptionKey = "{Your Translation key}";
 
-        public const string siteUrl = "http://portal.labs.int";
+        public const string siteUrl = "{SharePoint Url}";
         public const string documentLibrary = "Documents";
         public const string filePath = "D:\\COGNITIVE\\FILES";
 
